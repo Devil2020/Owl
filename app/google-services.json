@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "278263109559",
+    "firebase_url": "https://owl-chat-ce405.firebaseio.com",
+    "project_id": "owl-chat-ce405",
+    "storage_bucket": "owl-chat-ce405.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278263109559:android:00483b432982b980",
+        "android_client_info": {
+          "package_name": "com.example.mohammedmorsemorsefcis.owlchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278263109559-v3b5lkfv704i028b0lbscq8ldpnp77r7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhZes4s5xoPFzlDkd5rhaGTY_Y3HxbkiM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

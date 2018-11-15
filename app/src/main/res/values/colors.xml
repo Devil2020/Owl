@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TODO: Add all Colors to Color resourse File -->
+    <color name="colorPrimary">#252424</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="owlColor1">#F0F1FF</color>
+    <color name="owlColor2">#2B3B4E</color>
+    <color name="owlColor3">#324A5E</color>
+    <color name="RoomColor1">#031481</color>
+    <color name="RoomColor2">#a4f404</color>
+    <color name="RoomColor3">#ef0206</color>
+    <color name="RoomColor4">#16fc05</color>
+    <color name="White">#fff</color>
+    <color name="activeDots">#fffafa</color>
+    <color name="inactiveDots">#83878b</color>
+<color name="ButtonColor">#6D7DF3</color>
+    <color name="BUTT">#82B6DD</color>
+    <color name="YellowColor">#f7d304</color>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RoomActivityPackage.LoginRoomDialog"
+    android:background="@drawable/circ_dialog_shape"
+    android:orientation="vertical"
+
+    >
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="Login Room"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="#000"
+        android:id="@+id/OwlImage"
+        android:fontFamily="cursive"
+        android:layout_marginTop="20dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password :"
+            android:textSize="16sp"
+            android:textColor="#000"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Room Password"
+            android:textColorHint="#525253"
+            android:textColor="#000"
+            android:inputType="numberPassword"
+            android:id="@+id/LoginRoomPasswordEdit"
+            />
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="auto"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="right"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_navigate_next_black_24dp"
+        app:backgroundTint="@color/YellowColor"
+        android:id="@+id/Check"
+
+        />
+</LinearLayout>
