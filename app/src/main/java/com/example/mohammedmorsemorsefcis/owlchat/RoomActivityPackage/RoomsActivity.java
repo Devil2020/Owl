@@ -148,7 +148,7 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
                 user = firebaseAuth.getCurrentUser();
                 if (user == null) {
                     //Login
-                    startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled(false).setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build(), new AuthUI.IdpConfig.AnonymousBuilder().build())).build(), 10);
+                    startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled(false).setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build())).build(), 10);
                 } else {
                    // Toast.makeText(RoomsActivity.this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                     rooms.clear();
