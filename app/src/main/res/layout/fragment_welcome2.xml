@@ -12,6 +12,7 @@
         android:background="@drawable/chat"
         android:id="@+id/GifImage"
         android:scaleType="fitXY"
+        android:contentDescription="@string/chat_gif"
         android:layout_gravity="top|center"
         />
 <Button
@@ -22,7 +23,7 @@
     android:layout_marginBottom="100dp"
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
-    android:text="Login to Start Chat"
+    android:text="@string/login_first"
     android:textAllCaps="false"
     android:textColor="@color/White"
     android:id="@+id/StartLoginActivity"

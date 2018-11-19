@@ -12,10 +12,10 @@
     <TextView
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:text="Login Room"
+        android:text="@string/login_room1"
         android:gravity="center"
         android:textSize="40sp"
-        android:textColor="#000"
+        android:textColor="@color/Black"
         android:id="@+id/OwlImage"
         android:fontFamily="cursive"
         android:layout_marginTop="20dp"
@@ -30,17 +30,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password :"
+            android:text="@string/room_password1"
             android:textSize="16sp"
-            android:textColor="#000"
+            android:textColor="@color/Black"
             />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Room Password"
-            android:textColorHint="#525253"
-            android:textColor="#000"
+            android:hint="@string/room_password2"
+            android:textColorHint="@color/Gray"
+            android:textColor="@color/Black"
             android:inputType="numberPassword"
             android:id="@+id/LoginRoomPasswordEdit"
             />
@@ -56,6 +56,6 @@
         android:src="@drawable/ic_navigate_next_black_24dp"
         app:backgroundTint="@color/YellowColor"
         android:id="@+id/Check"
-
+android:contentDescription="@string/login_room"
         />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.mohammedmorsemorsefcis.owlchat.ChatActivityPackage;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.mohammedmorsemorsefcis.owlchat.Adapter.MessagesAdapter;
 import com.example.mohammedmorsemorsefcis.owlchat.Models.Message;
 import com.example.mohammedmorsemorsefcis.owlchat.Models.Room;
+import com.example.mohammedmorsemorsefcis.owlchat.PersonActivity.UsersActivity;
 import com.example.mohammedmorsemorsefcis.owlchat.R;
 import com.example.mohammedmorsemorsefcis.owlchat.databinding.ActivityChatBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +85,9 @@ public class ChatActivity extends AppCompatActivity {
             finish();
             Toast.makeText(this, "Log out", Toast.LENGTH_SHORT).show();
         }
+        else{
+            startActivity(new Intent(this , UsersActivity.class));
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -124,15 +129,18 @@ public class ChatActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void SendMessage(View view) {
-        Animator animator = ViewAnimationUtils.createCircularReveal(view,view.getWidth()/2,view.getHeight()/2,0, (float) Math.hypot(view.getWidth()/2,view.getHeight()/2));
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, view.getWidth() / 2, view.getHeight() / 2, 0, (float) Math.hypot(view.getWidth() / 2, view.getHeight() / 2));
         animator.start();
-        Message message=new Message();
-        String User = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        message.setTextMessage(binding.Message.getText().toString());
-        message.setSender(User);
-        message.setImgUrl(UserImage);
-        reference.push().setValue(message);
-        binding.Message.setText(null);
+        if (binding.Message.getText().equals(null)) {
+            Toast.makeText(this, "You can`t add an Empty Message , Please Entre a Valid one ", Toast.LENGTH_SHORT).show();
+        } else {
+            Message message = new Message();
+            String User = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            message.setTextMessage(binding.Message.getText().toString());
+            message.setSender(User);
+            message.setImgUrl(UserImage);
+            reference.push().setValue(message);
+            binding.Message.setText(null);
+        }
     }
-
 }

@@ -6,7 +6,10 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -15,16 +18,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mohammedmorsemorsefcis.owlchat.Adapter.RoomsAdapter;
 import com.example.mohammedmorsemorsefcis.owlchat.ChatActivityPackage.ChatActivity;
 import com.example.mohammedmorsemorsefcis.owlchat.Models.Person;
+import com.example.mohammedmorsemorsefcis.owlchat.NetworkDialogs.CheckNetworkDialog;
 import com.example.mohammedmorsemorsefcis.owlchat.R;
 import com.example.mohammedmorsemorsefcis.owlchat.Models.Room;
 import com.example.mohammedmorsemorsefcis.owlchat.PersonActivity.UsersActivity;
@@ -56,16 +66,23 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
     Bundle bundle;
     String  UserImage;
     AppWidgetManager appWidgetManager;
-    SharedPreferences preferences;
+    TextView textView;
     Room roomClicked;
     LoginRoomDialog loginRoomDialog;
+    int appWidgetIds[];
+    FrameLayout frameLayout;
+    boolean isConn;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms);
-        setTitle("Rooms");
+        isConn=CheckNetwork();
+        setTitle(getResources().getString(R.string.room));
+        frameLayout=findViewById(R.id.frame);
         bundle=getIntent().getExtras();
         rooms=new ArrayList<>();
+        textView=findViewById(R.id.creatroomtext);
         recyclerView=findViewById(R.id.RoomRecyclerview);
         roomsAdapter=new RoomsAdapter(rooms,this);
         manager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -75,11 +92,25 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
         recyclerView.setAdapter(roomsAdapter);
         UserImage=new String ();
         appWidgetManager=AppWidgetManager.getInstance(this);
-        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
+        appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(this, RoomsWidget.class));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.list_view_widget);
+        hideTextAfterTime(5000,textView);
     }
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+public void hideTextAfterTime(int Time , final View view){
+   final Slide slide=new Slide();
+    slide.setSlideEdge(Gravity.LEFT);
+slide.setDuration(3000);
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                TransitionManager.beginDelayedTransition(frameLayout,slide);
+                view.setVisibility(View.INVISIBLE);
+            }
+        };
+    Handler handler=new Handler();
+    handler.postDelayed(runnable,Time);
+}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
@@ -117,13 +148,13 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
                     UserImage=user.getPhotoUrl().toString();
                 }
                reference=database.getReference().child(user.getDisplayName()).child("Data");
-               reference.child("UserInfo").setValue(person);
+               reference.child(getResources().getString(R.string.userinfo)).setValue(person);
                 Log.i("Morse", "onActivityResult: ");
 
             }
             else {
                 finish();
-                Toast.makeText(this, "Sorry , didn`t Create in Database Node", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.network_problems), Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -142,23 +173,25 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
     @Override
     protected void onResume() {
         super.onResume();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    //Login
-                    startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled(false).setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build())).build(), 10);
-                } else {
-                   // Toast.makeText(RoomsActivity.this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                    rooms.clear();
-                    roomsAdapter.notifyDataSetChanged();
-                }
-            }
-        };
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseAuth.addAuthStateListener(authStateListener);
+           authStateListener = new FirebaseAuth.AuthStateListener() {
+               @Override
+               public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                   user = firebaseAuth.getCurrentUser();
+                   if (user == null) {
+                       //Login
+                       startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled(false).setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build())).build(), 10);
+                   } else {
+                       // Toast.makeText(RoomsActivity.this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                       rooms.clear();
+                       roomsAdapter.notifyDataSetChanged();
+                   }
+               }
+           };
+
+           user = FirebaseAuth.getInstance().getCurrentUser();
+           firebaseAuth.addAuthStateListener(authStateListener);
+
         if (user != null) {
             if(bundle==null) {
                 reference = database.getReference().child(user.getDisplayName()).child("Rooms");
@@ -197,12 +230,21 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
             };
             reference.addChildEventListener(listener);
         }
+       }
 
-    }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreateRoomClicked() {
        dialog.dismiss();
+       if(textView.getVisibility()==View.INVISIBLE){
+           Slide slide=new Slide();
+           slide.setSlideEdge(Gravity.RIGHT);
+           TransitionManager.beginDelayedTransition(frameLayout,slide);
+           textView.setVisibility(View.VISIBLE);
+           hideTextAfterTime(5000,textView);
+       }
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.list_view_widget);
     }
 
     @Override
@@ -243,9 +285,9 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
         }
         else{
             final AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setTitle("Wrong Password !");
+            builder.setTitle(getResources().getString(R.string.errpr_login));
             builder.setIcon(R.drawable.error);
-            builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getText(R.string.login), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Bundle bundle=new Bundle();
@@ -254,7 +296,7 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
                     loginRoomDialog.show(getSupportFragmentManager(),"Login in Room");
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getText(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -262,7 +304,19 @@ public class RoomsActivity extends AppCompatActivity implements RoomInterface {
             });
             builder.show();
         }
-
-        Toast.makeText(this, ""+b, Toast.LENGTH_SHORT).show();
+    }
+    public boolean CheckNetwork(){
+        boolean isConn =false;
+        ConnectivityManager manager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo info=manager.getActiveNetworkInfo();
+        if(info!=null&&info.isConnected()){
+         isConn=true;
+        }
+        else{
+            CheckNetworkDialog networkDialog=new CheckNetworkDialog();
+            networkDialog.show(getSupportFragmentManager(),"Open Network Fragment");
+       isConn=false;
+        }
+        return isConn;
     }
 }

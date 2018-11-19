@@ -33,11 +33,11 @@ app:layout_constraintBottom_toBottomOf="parent"
             android:textSize="23sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:hint="Entre Message"
+            android:hint="@string/entre_message"
             android:gravity="center"
-            android:textColorHint="#000"
+            android:textColorHint="@color/Black"
             android:layout_weight="4"
-            android:textColor="#000"
+            android:textColor="@color/Black"
             app:layout_constraintEnd_toStartOf="@id/send"
 
             android:background="@drawable/circluar_room_item_shape"
@@ -55,6 +55,7 @@ app:layout_constraintLeft_toRightOf="@id/Message"
             android:layout_gravity="right"
             android:layout_weight="2"
             app:layout_constraintRight_toRightOf="parent"
+            android:contentDescription="@string/send_Message"
             />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

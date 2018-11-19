@@ -4,8 +4,9 @@
     android:background="@color/White"
     android:padding="@dimen/widget_margin"
     android:orientation="vertical"
+
     >
-<TextView android:text="My Rooms"
+<TextView android:text="@string/my_rooms"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:gravity="center"

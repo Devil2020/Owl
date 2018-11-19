@@ -17,4 +17,7 @@
 <color name="ButtonColor">#6D7DF3</color>
     <color name="BUTT">#82B6DD</color>
     <color name="YellowColor">#f7d304</color>
+    <color name="Black">#000</color>
+    <color name="Gray">#525253</color>
+
 </resources>

@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
-
+def keyStoreFile=rootProject.file("gradle.properties")
+def keyStoreData=new Properties();
+keyStoreData.load(new FileInputStream(keyStoreFile))
 android {
     signingConfigs {
         config {
-            keyAlias 'key0'
-            keyPassword '000000'
-            storeFile file('C:/Users/Mohammed Morse/Desktop/keystores.jks')
-            storePassword '000000'
+            keyAlias keyStoreData['keyAlias']
+            keyPassword keyStoreData['keyPassword']
+            storeFile file(keyStoreData['storeFile'])
+            storePassword keyStoreData['storePassword']
         }
     }
     compileSdkVersion 28
@@ -43,7 +45,6 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.google.firebase:firebase-storage:16.0.4'
     implementation 'com.google.firebase:firebase-auth:16.0.4'
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.4'

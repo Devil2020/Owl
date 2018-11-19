@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RoomActivityPackage.RoomsActivity"
     android:background="@color/White"
+    android:id="@+id/frame"
     >
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -13,7 +14,18 @@
         android:id="@+id/RoomRecyclerview"
         ></android.support.v7.widget.RecyclerView>
 
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Create Room"
+    android:textColor="@color/White"
+    android:layout_gravity="bottom|right"
+    android:background="@drawable/blue_round_shape"
+    android:elevation="20dp"
+    android:layout_marginBottom="45dp"
+    android:layout_marginRight="100dp"
+    android:id="@+id/creatroomtext"
+    />
 <android.support.design.widget.FloatingActionButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -24,5 +36,6 @@
     android:layout_marginBottom="30dp"
     android:layout_marginRight="30dp"
     android:onClick="AddRoom"
+    android:contentDescription="@string/add_room"
     />
 </FrameLayout>
